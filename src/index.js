@@ -27,7 +27,7 @@ function onSearch(e) {
         );
         return;
       }
-      if (data.lenght > 1) {
+      if (data.length > 1) {
         createCountryListMarkup(data);
       }
 
