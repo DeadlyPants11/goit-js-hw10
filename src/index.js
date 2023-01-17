@@ -16,29 +16,26 @@ function onSearch(e) {
   const inputValue = e.target.value;
   const countryName = inputValue.trim();
 
-  refs.countryInfo.hidden = true;
   clearMarkup();
 
-  if (countryName) {
-    fetchCountries(countryName)
-      .then(data => {
-        if (data.length > 10) {
-          Notify.info(
-            'Too many matches found. Please enter a more specific name.'
-          );
-          return;
-        }
-
+  if (!countryName) return;
+  fetchCountries(countryName)
+    .then(data => {
+      if (data.length > 10) {
+        Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+        );
+        return;
+      }
+      if (data.lenght > 1) {
         createCountryListMarkup(data);
+      }
 
-        if (data.length === 1) {
-          refs.countryList.innerHTML = '';
-          createCountryCardMarkup(data);
-          refs.countryInfo.hidden = false;
-        }
-      })
-      .catch(error => Notify.failure(`${error}`));
-  }
+      if (data.length === 1) {
+        createCountryCardMarkup(data);
+      }
+    })
+    .catch(error => Notify.failure(`${error}`));
 }
 
 function createCountryListMarkup(data) {
